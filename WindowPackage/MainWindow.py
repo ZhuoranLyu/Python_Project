@@ -16,8 +16,6 @@ class MainWindow:
 		self.frame.columnconfigure(0, weight=1)
 		self.frame.rowconfigure(0, weight=1)
 		
-		#image = ImageTk.PhotoImage(Image.open('/home/zhuoran/Desktop/1.jpg'))
-		#ttk.Label(master, image=image)
 
 		self.button1 = ttk.Button(self.frame, text = "Show price of one stock", width = 25, command = self.new_window1).grid(column=1, row=1, sticky=W)
 		self.button2= ttk.Button(self.frame, text = "Compare prices of several stocks", width = 25, command = self.new_window2).grid(column=2, row=1, sticky=W)

@@ -71,15 +71,10 @@ class PortfolioAnalysisWindow:
 		ttk.Label(self.frame, text="please enter the start date").grid(column=5, row=1, sticky=W)
 		ttk.Label(self.frame, text="please enter the start date").grid(column=5, row=2, sticky=W)
 
-		try:
-			ttk.Button(self.frame, text="Plot", command=lambda: self.plot\
+		ttk.Button(self.frame, text="Plot", command=lambda: self.plot\
 			([stock_one_name.get(), stock_two_name.get(), stock_three_name.get(), stock_four_name.get()], \
 				[stock_one_amount.get(), stock_two_amount.get(), stock_three_amount.get(), stock_four_amount.get()],\
 				start_date.get(), end_date.get())).grid(column=6, row=6, sticky=W)
-
-		except:
-			tkMessageBox.showinfo(message='Invalid amount type, please enter a positive number!')
-
 
 		for child in self.frame.winfo_children(): 
 			child.grid_configure(padx=10, pady=10)
