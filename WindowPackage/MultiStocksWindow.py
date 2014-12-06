@@ -11,7 +11,7 @@ import tkMessageBox
 class MultiStocksWindow:
 	def __init__(self, master):
 		self.master = master
-		self.frame = ttk.Frame(self.master,padding="4 4 100 80")
+		self.frame = ttk.Frame(self.master,padding="6 4 100 80")
 		self.frame.grid(column=0, row=0, sticky=(N, W, E, S))
 		self.frame.columnconfigure(0, weight=1)
 		self.frame.rowconfigure(0, weight=1)
@@ -41,18 +41,21 @@ class MultiStocksWindow:
 		self.end_date_entry = ttk.Entry(self.frame, width=7, textvariable=end_date)
 		self.end_date_entry.grid(column=4, row=2, sticky=(W, E))
 
-		ttk.Label(self.frame, text="please enter the first stock name").grid(column=1, row=1, sticky=W)
-		ttk.Label(self.frame, text="please enter the second stock name").grid(column=1, row=2, sticky=W)
-		ttk.Label(self.frame, text="please enter the third stock name").grid(column=1, row=3, sticky=W)
-		ttk.Label(self.frame, text="please enter the fourth stock name").grid(column=1, row=4, sticky=W)
+		ttk.Label(self.frame, text="please enter the first stock symbol").grid(column=1, row=1, sticky=W)
+		ttk.Label(self.frame, text="please enter the second stock symbol").grid(column=1, row=2, sticky=W)
+		ttk.Label(self.frame, text="please enter the third stock symbol").grid(column=1, row=3, sticky=W)
+		ttk.Label(self.frame, text="please enter the fourth stock symbol").grid(column=1, row=4, sticky=W)
 
 		ttk.Label(self.frame, text="please enter the start date").grid(column=3, row=1, sticky=W)
 		ttk.Label(self.frame, text="please enter the start date").grid(column=3, row=2, sticky=W)
+		
+		ttk.Label(self.frame, text="stock symbol e.g: 'AAPL'").grid(column=2, row=5, sticky=W)
+		ttk.Label(self.frame, text="date e.g: '2010/1/1'").grid(column=4, row=3, sticky=W)
 
 		ttk.Button(self.frame, text="Plot", command=lambda: self.plot\
 			([stock_one_name.get(), stock_two_name.get(), stock_three_name.get(), stock_four_name.get()], \
-				start_date.get(), end_date.get())).grid(column=3, row=4, sticky=W)
-		ttk.Button(self.frame, text="Clear", command=self.clear_entry).grid(column=4, row=4, sticky=W)
+				start_date.get(), end_date.get())).grid(column=3, row=6,sticky=N)
+		ttk.Button(self.frame, text="Clear", command=self.clear_entry).grid(column=4, row=6, sticky=N)
 
 
 		for child in self.frame.winfo_children(): 
