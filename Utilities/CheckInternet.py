@@ -5,7 +5,7 @@ Created on 2014.12.5
 '''
 
 import requests
-from Exceptions import *
+from Utilities.Exceptions import *
 
 def IsInternetOn():
     """

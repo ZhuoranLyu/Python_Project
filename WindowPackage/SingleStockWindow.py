@@ -1,11 +1,11 @@
 from Tkinter import *
 import ttk
 import tkMessageBox
-import mypackage.StockClass as SC
+import ClassPackage.StockClass as SC
 import pandas as pd
 import datetime
-import mypackage.Check_Internet as CI
-from mypackage.Exceptions import *
+import Utilities.CheckInternet as CI
+from Utilities.Exceptions import *
 
 class SingleStockWindow:
 	def __init__(self, master):

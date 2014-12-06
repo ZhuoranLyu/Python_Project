@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from PortfolioDataProcessing import *
+from PortfolioPackage.PortfolioDataProcessing import *
 
 def describe_portfolio(df):
     '''Get descriptic statistics of the stocks'''

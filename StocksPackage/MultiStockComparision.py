@@ -7,9 +7,9 @@ Created on 2014.12.3
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from StockClass import *
+from ClassPackage.StockClass import *
 import matplotlib.cm as cm
-from Exceptions import *
+from Utilities.Exceptions import *
 
 def check_stock_names(stock_name_list):
     stock_name_list = [x.upper() for x in stock_name_list]

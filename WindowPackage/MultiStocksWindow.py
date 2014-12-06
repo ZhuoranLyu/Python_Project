@@ -1,11 +1,11 @@
 from Tkinter import *
 import ttk
-import mypackage.StockClass as SC
-import mypackage.Multi_Stock_Comparision as MSC
+import ClassPackage.StockClass as SC
+import StocksPackage.MultiStockComparision as MSC
 import pandas as pd
 import datetime
-import mypackage.Check_Internet as CI
-from mypackage.Exceptions import *
+import Utilities.CheckInternet as CI
+from Utilities.Exceptions import *
 import tkMessageBox
 
 class MultiStocksWindow:

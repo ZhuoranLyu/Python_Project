@@ -1,12 +1,12 @@
 from Tkinter import *
 import ttk
-import mypackage.StockClass as SC
+import ClassPackage.StockClass as SC
 import pandas as pd
 import datetime
 import tkMessageBox
-import mypackage.PortfolioInput as PI
-import mypackage.Check_Internet as CI
-from mypackage.Exceptions import *
+import PortfolioPackage.PortfolioInput as PI
+import Utilities.CheckInternet as CI
+from Utilities.Exceptions import *
 
 
 class PortfolioAnalysisWindow:

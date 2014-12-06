@@ -8,9 +8,9 @@ import numpy as np
 import pandas as pd
 import pandas.io.data as web
 import matplotlib.pyplot as plt
-from MarketClass import *
-from Exceptions import *
-from Inputfunctions import *
+from ClassPackage.MarketClass import *
+from Utilities.Exceptions import *
+from Utilities.Inputfunctions import *
 
 #
 

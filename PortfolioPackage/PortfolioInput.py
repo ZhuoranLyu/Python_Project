@@ -2,10 +2,10 @@ import numpy as np
 import pandas as pd
 import pandas.io.data as web
 import matplotlib.pyplot as plt
-from StockClass import *
-from PortfolioDataProcessing import *
-from PortfolioFunctions import *
-from Multi_Stock_Comparision import *
+from ClassPackage.StockClass import *
+from PortfolioPackage.PortfolioDataProcessing import *
+from PortfolioPackage.PortfolioFunctions import *
+from StocksPackage.MultiStockComparision import *
 from collections import defaultdict
 
 

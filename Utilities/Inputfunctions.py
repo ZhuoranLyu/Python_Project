@@ -6,7 +6,7 @@ Created on 2014.12.4
 import re
 import pandas.io.data as web
 import datetime
-from Exceptions import *
+from Utilities.Exceptions import *
 
 def IsValidStockName(stock_name):
     """
