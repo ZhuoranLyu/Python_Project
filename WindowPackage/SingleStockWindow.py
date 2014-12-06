@@ -16,11 +16,11 @@ class SingleStockWindow:
 		self.frame.rowconfigure(0, weight=1)
 
 		stock_name = StringVar()
-		stock_name.set("IBM")
+		#stock_name.set("IBM")
 		start_date = StringVar()
-		start_date.set("2010/1/1")
+		#start_date.set("2010/1/1")
 		end_date = StringVar()
-		end_date.set("2010/5/1")
+		#end_date.set("2010/5/1")
 
 		self.stock_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_name)
 		self.stock_name_entry.grid(column=2, row=1, sticky=(W, E))
@@ -34,9 +34,13 @@ class SingleStockWindow:
 		ttk.Button(self.frame, text="Plot", command=lambda: self.plot(stock_name.get(), start_date.get(), end_date.get())).grid(column=1, row=4, sticky=W)
 		ttk.Button(self.frame, text="Clear", command=self.clear_entry).grid(column=2, row=4, sticky=W)
 
-		ttk.Label(self.frame, text="please enter the stock name").grid(column=1, row=1, sticky=W)
+		ttk.Label(self.frame, text="please enter the stock symbol").grid(column=1, row=1, sticky=W)
 		ttk.Label(self.frame, text="please enter the start date").grid(column=1, row=2, sticky=W)
 		ttk.Label(self.frame, text="please enter the start date").grid(column=1, row=3, sticky=W)
+
+		ttk.Label(self.frame, text="e.g: 'AAPL'").grid(column=3, row=1, sticky=W)
+		ttk.Label(self.frame, text="e.g: '2010/1/1'").grid(column=3, row=2, sticky=W)
+		ttk.Label(self.frame, text="e.g: '2010/5/1'").grid(column=3, row=3, sticky=W)
 
 		for child in self.frame.winfo_children(): 
 			child.grid_configure(padx=10, pady=10)

@@ -32,17 +32,20 @@ class MainWindow:
 
 	def new_window1(self):
 		self.newWindow = Toplevel(self.master)
-		self.newWindow.title("lalala")
+		self.newWindow.title("Show price of one stock")
 		self.app = SSW.SingleStockWindow(self.newWindow)
 
 	def new_window2(self):
 		self.newWindow = Toplevel(self.master)
+		self.newWindow.title("Compare prices of several stocks")		
 		self.app = MSW.MultiStocksWindow(self.newWindow)
 
 	def new_window3(self):
 		self.newWindow = Toplevel(self.master)
+		self.newWindow.title("Compare a stock with market")
 		self.app = CWMW.ComparisonWithMarketWindow(self.newWindow)
 
 	def new_window4(self):
 		self.newWindow = Toplevel(self.master)
+		self.newWindow.title("Portfolio analysis")
 		self.app = PAW.PortfolioAnalysisWindow(self.newWindow)
