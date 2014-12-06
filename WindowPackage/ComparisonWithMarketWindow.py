@@ -19,16 +19,17 @@ class ComparisonWithMarketWindow:
 		start_date = StringVar()
 		end_date = StringVar()
 
-		stock_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_name)
-		stock_name_entry.grid(column=2, row=1, sticky=(W, E))
+		self.stock_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_name)
+		self.stock_name_entry.grid(column=2, row=1, sticky=(W, E))
 
-		start_date_entry = ttk.Entry(self.frame, width=7, textvariable=start_date)
-		start_date_entry.grid(column=2, row=2, sticky=(W, E))
+		self.start_date_entry = ttk.Entry(self.frame, width=7, textvariable=start_date)
+		self.start_date_entry.grid(column=2, row=2, sticky=(W, E))
 
-		end_date_entry = ttk.Entry(self.frame, width=7, textvariable=end_date)
-		end_date_entry.grid(column=2, row=3, sticky=(W, E))
+		self.end_date_entry = ttk.Entry(self.frame, width=7, textvariable=end_date)
+		self.end_date_entry.grid(column=2, row=3, sticky=(W, E))
 
-		ttk.Button(self.frame, text="Analysis", command=lambda: self.plot(stock_name.get(), start_date.get(), end_date.get())).grid(column=2, row=4, sticky=W)
+		ttk.Button(self.frame, text="Analysis", command=lambda: self.plot(stock_name.get(), start_date.get(), end_date.get())).grid(column=1, row=4, sticky=W)
+		ttk.Button(self.frame, text="Clear", command=self.clear_entry).grid(column=2, row=4, sticky=W)
 
 		ttk.Label(self.frame, text="please enter the stock name").grid(column=1, row=1, sticky=W)
 		ttk.Label(self.frame, text="please enter the start date").grid(column=1, row=2, sticky=W)
@@ -38,7 +39,12 @@ class ComparisonWithMarketWindow:
 		for child in self.frame.winfo_children(): 
 			child.grid_configure(padx=10, pady=10)
 
-		stock_name_entry.focus()
+		self.stock_name_entry.focus()
+
+	def clear_entry(self):
+		self.stock_name_entry.delete(0, END)
+		self.start_date_entry.delete(0, END)
+		self.end_date_entry.delete(0, END)
 
 
 	def plot(self, stock_name, start_date, end_date):
