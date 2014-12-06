@@ -38,4 +38,13 @@ class DateRangeException(Exception):
     """
     def __str__(self):
         return "The end date is smaller than the start date, please reenter the dates."
+
+class TradeAmountException(Exception):
+    """
+    Raise when the trade amount is not a positive integer.
+    """
+    def __str__(self):
+        return "The trade amount is invalid, please enter a positive integer."
+
+    
     

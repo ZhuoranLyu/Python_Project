@@ -4,6 +4,10 @@ import mypackage.StockClass as SC
 import pandas as pd
 import datetime
 import tkMessageBox
+import mypackage.PortfolioInput as PI
+import mypackage.Check_Internet as CI
+from mypackage.Exceptions import *
+
 
 class PortfolioAnalysisWindow:
 	def __init__(self, master):
@@ -14,17 +18,28 @@ class PortfolioAnalysisWindow:
 		self.frame.rowconfigure(0, weight=1)
 
 		stock_one_name = StringVar()
+		stock_one_name.set("IBM")
 		stock_two_name = StringVar()
+		stock_two_name.set("AAPL")
 		stock_three_name = StringVar()
+		stock_three_name.set("C")
 		stock_four_name = StringVar()
+		stock_four_name.set("F")
 
-		stock_one_amount = IntVar()
-		stock_two_amount = IntVar()
-		stock_three_amount = IntVar()
-		stock_four_amount = IntVar()
+		stock_one_amount = StringVar()
+		stock_two_amount = StringVar()
+		stock_three_amount = StringVar()
+		stock_four_amount = StringVar()
+
+		stock_one_amount.set('20')
+		stock_two_amount.set('10')
+		stock_three_amount.set('20')
+		stock_four_amount.set('20')
 
 		start_date = StringVar()
+		start_date.set("2010/1/1")
 		end_date = StringVar()
+		end_date.set('2010/5/1')
 
 		stock_one_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_one_name)
 		stock_one_name_entry.grid(column=2, row=1, sticky=(W, E))
@@ -83,10 +98,10 @@ class PortfolioAnalysisWindow:
 
 
 	def plot(self, stock_list, amount_list, start_date, end_date):
-		#stock = SC.Stock(stock_list, start_date, end_date)
-		#stock.plot_closeprice()
-		print stock_list
-		print amount_list
-		print start_date
-      
-
+		try:
+			CI.IsInternetOn()
+			PI.portfolio_analysis(stock_list, start_date, end_date, amount_list)		
+		except (StockNameInputException,DateInputException,EmptyInputException,ConnectInternetException,DateRangeException, TradeAmountException) as error:
+			tkMessageBox.showinfo(message=error)
+		except:
+			tkMessageBox.showinfo(message='Please restart the application, sorry about that!')

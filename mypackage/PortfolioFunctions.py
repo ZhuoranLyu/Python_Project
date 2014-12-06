@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-
+from PortfolioDataProcessing import *
 
 def describe_portfolio(df):
     '''Get descriptic statistics of the stocks'''
@@ -18,8 +18,8 @@ def stocks_return(df):
 
 def line_plot(df):
     '''plot a gragh showing the performance of the portfolio'''
-    plt.figure()
-    df.plot(kind='line')
+    new_df = percentage_change(df)
+    new_df.plot(kind='line')
     plt.ylabel('Price')
     plt.title('Portfolio performance')
     plt.legend()
@@ -39,7 +39,7 @@ def box_plot(df):
 #single scatterplot of two stocks
 def two_stock_scatterplot(df, stock1, stock2):
     ''' Plot a scatterplot of two stock to see their correlation'''
-    #daily_rets = percentage_change(df)
+    daily_rets = percentage_change(df)
     plt.figure()
     plt.scatter(daily_rets.stock1, daily_rets.stock2, color = 'b', alpha = 0.8)
     plt.title('Scatterplot of the selected stocks')
@@ -48,7 +48,7 @@ def two_stock_scatterplot(df, stock1, stock2):
 
 def scatter_matrix(df):
     '''create a scatter matrix to examine the correlation among stocks'''
-    #daily_rets = percentage_change(df)
+    daily_rets = percentage_change(df)
     plt.figure()
     pd.scatter_matrix(daily_rets, figsize=(15, 15))
     plt.title('Scatter matrix of your portfolio')
@@ -68,7 +68,7 @@ def heat_map(df):
 
 def risk_vs_return(df):
     '''create a plot to examine the risk and return tradeoff'''
-    #daily_return = percentage_change(df)
+    daily_return = percentage_change(df)
     plt.figure()
     plt.scatter(daily_rets.mean(),daily_rets.std())
     plt.xlabel('Expected Return')
@@ -86,15 +86,17 @@ def risk_vs_return(df):
 #[20,50,200]
 # 50 days moving average
 def moving_avg(df,Num):
-    '''Allow the user to choose moving average of 20,50 or 200 days, 
+    '''Allow the user to choose moving average days of a number of, 
     plot a graph comparing the moving average price with the portfolio daily price'''
-    moving_average = pd.rolling_mean(df['Sum'],Num,min_periods=Num)
+    if IsValidNum(Num):
+        moving_avg_num = ParseValidNum(num)          
+    moving_average = pd.rolling_mean(df['Sum'],moving_avg_num,min_periods=Num)
     #df['Moving Average'] = moving_average
     plt.figure(figsize=(12,12))
     plt.plot(df.index,moving_average)
     plt.plot(df.index,df['Sum'])
     plt.ylabel('Price')
-    plt.title('Moving average of {} days V.S. portfolio price'. format(Num))
+    plt.title('Moving average of {} days V.S. portfolio price'. format(moving_avg_num))
     plt.lengend()
     plt.show()
 

@@ -16,8 +16,11 @@ class ComparisonWithMarketWindow:
 		self.frame.rowconfigure(0, weight=1)
 
 		stock_name = StringVar()
+		stock_name.set("IBM")
 		start_date = StringVar()
+		start_date.set("2010/1/1")
 		end_date = StringVar()
+		end_date.set("2010/5/1")
 
 		self.stock_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_name)
 		self.stock_name_entry.grid(column=2, row=1, sticky=(W, E))
@@ -56,7 +59,7 @@ class ComparisonWithMarketWindow:
 		try:
 			CI.IsInternetOn()
 			stock = SC.Stock(stock_name, start_date, end_date)
-			stock.plot_close_price()
+			stock.plot_changeprice_comparison()
 		except (StockNameInputException,DateInputException,EmptyInputException,ConnectInternetException,DateRangeException) as error:
 			tkMessageBox.showinfo(message=error)
 		except:

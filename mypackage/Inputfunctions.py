@@ -70,3 +70,25 @@ def IsValidDateRange(start, end):
         return True
     else:
         return False
+
+
+
+def IsValidNum(num_string):
+    """
+    Check whether the trade amount is positive integer.
+    """
+    try:
+        num = int(num_string)
+    except:
+        raise TradeAmountException()
+    if num <= 0:
+        raise TradeAmountException()
+    else:
+        return True
+
+def ParseValidNum(num):
+    """
+    Parse when the trade amount input is valid.
+    """
+    if IsValidNum(num):
+        return int(num)
