@@ -31,9 +31,14 @@ class ComparisonWithMarketWindow:
 		ttk.Button(self.frame, text="Analysis", command=lambda: self.plot(stock_name.get(), start_date.get(), end_date.get())).grid(column=1, row=4, sticky=W)
 		ttk.Button(self.frame, text="Clear", command=self.clear_entry).grid(column=2, row=4, sticky=W)
 
-		ttk.Label(self.frame, text="please enter the stock name").grid(column=1, row=1, sticky=W)
+
+		ttk.Label(self.frame, text="please enter the stock symbol").grid(column=1, row=1, sticky=W)
 		ttk.Label(self.frame, text="please enter the start date").grid(column=1, row=2, sticky=W)
 		ttk.Label(self.frame, text="please enter the start date").grid(column=1, row=3, sticky=W)
+
+		ttk.Label(self.frame, text="e.g: 'AAPL'").grid(column=3, row=1, sticky=W)
+		ttk.Label(self.frame, text="e.g: '2010/1/1'").grid(column=3, row=2, sticky=W)
+		ttk.Label(self.frame, text="e.g: '2010/5/1'").grid(column=3, row=3, sticky=W)
 
 
 		for child in self.frame.winfo_children(): 
