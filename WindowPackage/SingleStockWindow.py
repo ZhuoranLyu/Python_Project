@@ -16,11 +16,11 @@ class SingleStockWindow:
 		self.frame.rowconfigure(0, weight=1)
 
 		stock_name = StringVar()
-		#stock_name.set("IBM")
+		stock_name.set("IBM")
 		start_date = StringVar()
-		#start_date.set("2010/1/1")
+		start_date.set("2010/1/1")
 		end_date = StringVar()
-		#end_date.set("2010/5/1")
+		end_date.set("2010/5/1")
 
 		self.stock_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_name)
 		self.stock_name_entry.grid(column=2, row=1, sticky=(W, E))
