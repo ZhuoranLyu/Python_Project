@@ -140,17 +140,17 @@ class PortfolioAnalysisWindow:
 			CI.IsInternetOn()
 			portfolio = PC.Portfolio(stock_list, start_date, end_date, amount_list)
 			try:
-				label1.destroy()
-				label2.destroy()
+				self.label1.destroy()
+				self.label2.destroy()
 			except:
 				pass
 				
 			if self.analysis_type.get() == 'statistics of the portfolio':
-				label1 = ttk.Label(self.frame, text="Statistics of the portfolio.").grid(column=1, row=5, sticky=W)
-				label2 = ttk.Label(self.frame, text=portfolio.describe_portfolio()).grid(column=1, row=6, sticky=W)
+				self.label1 = ttk.Label(self.frame, text="Statistics of the portfolio.").grid(column=1, row=5, sticky=W)
+				self.label2 = ttk.Label(self.frame, text=portfolio.describe_portfolio()).grid(column=1, row=6, sticky=W)
 			else:
-				label1 = ttk.Label(self.frame, text="Correlation of the stocks changes.").grid(column=1, row=5, sticky=W)
-				label2 = ttk.Label(self.frame, text=portfolio.stocks_value_change_corr()).grid(column=1, row=6, sticky=W)
+				self.label1 = ttk.Label(self.frame, text="Correlation of the stocks changes.").grid(column=1, row=5, sticky=W)
+				self.label2 = ttk.Label(self.frame, text=portfolio.stocks_value_change_corr()).grid(column=1, row=6, sticky=W)
 
 		except (StockNameInputException,DateInputException,EmptyInputException,ConnectInternetException,DateRangeException, TradeAmountException) as error:
 			tkMessageBox.showinfo(message=error)
