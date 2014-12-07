@@ -80,15 +80,26 @@ def IsValidNum(num_string):
     try:
         num = int(num_string)
     except:
-        raise TradeAmountException()
+        return False
     if num <= 0:
-        raise TradeAmountException()
+        return False
     else:
         return True
 
-def ParseValidNum(num):
+def ParseValidNum(num_string):
     """
     Parse when the trade amount input is valid.
     """
-    if IsValidNum(num):
-        return int(num)
+    if IsValidNum(num_string):
+        return int(num_string)
+    else:
+        raise TradeAmountException()       
+
+def IsEmptyPortfolio(dictionary):
+	"""
+	Check whether the portfolio is empty.
+	"""
+    if dictionary == {}:
+        return True
+    else:
+        return False
