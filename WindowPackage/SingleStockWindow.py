@@ -46,7 +46,7 @@ class SingleStockWindow:
 		ttk.Label(self.frame, text="e.g: 'AAPL'").grid(column=3, row=1, sticky=W)
 		ttk.Label(self.frame, text="e.g: '2010/1/1'").grid(column=3, row=2, sticky=W)
 		ttk.Label(self.frame, text="e.g: '2010/5/1'").grid(column=3, row=3, sticky=W)
-
+		
 		for child in self.frame.winfo_children(): 
 			child.grid_configure(padx=10, pady=10)
 
@@ -56,13 +56,17 @@ class SingleStockWindow:
 		self.stock_name_entry.delete(0, END)
 		self.start_date_entry.delete(0, END)
 		self.end_date_entry.delete(0, END)
+		self.analysistitle.destroy()
+		self.analysiscontent.destroy()
 	
 	def analysis(self, stock_name, start_date, end_date):
 		try:
 			CI.IsInternetOn()
 			stock = SC.Stock(stock_name, start_date, end_date)
-			ttk.Label(self.frame, text="The Close Price Analysis of the Stock ").grid(column=1, row=5, sticky=W)
-			ttk.Label(self.frame, text=stock.close_price_describe()).grid(column=1, row=6, sticky=W)
+			self.analysistitle = ttk.Label(self.frame, text="The Close Price Analysis of the Stock ")
+			self.analysistitle.grid(column=1, row=5, sticky=W)
+			self.analysiscontent = ttk.Label(self.frame, text=stock.close_price_describe())
+			self.analysiscontent.grid(column=1, row=6, sticky=W)
 		except (StockNameInputException,DateInputException,EmptyInputException,ConnectInternetException,DateRangeException) as error:
 			tkMessageBox.showinfo(message=error)
 		except:
