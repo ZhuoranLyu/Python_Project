@@ -46,5 +46,9 @@ class TradeAmountException(Exception):
     def __str__(self):
         return "The trade amount is invalid, please enter a positive integer."
 
-    
-    
+class EmptyPortfolioException(Exception):
+    """
+    Raise when the inputs of stock and trade amount are all null.
+    """
+    def __str__(self):
+        return "The portfolio is empty, please enter the input."
