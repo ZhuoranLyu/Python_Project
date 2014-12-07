@@ -96,9 +96,9 @@ def ParseValidNum(num_string):
         raise TradeAmountException()       
 
 def IsEmptyPortfolio(dictionary):
-	"""
-	Check whether the portfolio is empty.
-	"""
+    """
+    Check whether the portfolio is empty.
+    """
     if dictionary == {}:
         return True
     else:

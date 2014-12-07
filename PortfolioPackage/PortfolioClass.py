@@ -133,7 +133,7 @@ class Portfolio():
         market.change_price_precent().plot(color = 'r',label = 'Market')
         plt.legend()
         plt.xticks(rotation=45)
-        plt.title('Porfolio performance compared with the market')
+        plt.title('Portfolio performance compared with the market')
         plt.xlabel('Date')
         plt.ylabel('Percent Change of Close Price')
         plt.show()
@@ -162,7 +162,7 @@ class Portfolio():
         get correlation of the stocks changes.
         """
         percentage_change_df = self.percentage_change()
-        stocks_price_change_corr = percentage_change_df.corr()
+        stocks_price_change_corr = percentage_change_df[percentage_change_df.columns[:-1]].corr()
         return stocks_price_change_corr
     
     def heat_map(self):

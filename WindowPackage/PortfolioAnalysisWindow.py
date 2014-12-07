@@ -4,7 +4,7 @@ import ClassPackage.StockClass as SC
 import pandas as pd
 import datetime
 import tkMessageBox
-import PortfolioPackage.PortfolioInput as PI
+import PortfolioPackage.PortfolioClass as PC
 import Utilities.CheckInternet as CI
 from Utilities.Exceptions import *
 
@@ -46,6 +46,7 @@ class PortfolioAnalysisWindow:
 		end_date.set('2010/5/1')
 
 		self.figure_type = StringVar()
+		self.analysis_type = StringVar()
 
 		stock_one_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_one_name)
 		stock_one_name_entry.grid(column=2, row=1, sticky=(W, E))
@@ -92,13 +93,22 @@ class PortfolioAnalysisWindow:
 		ttk.Label(self.frame, text="please enter the start date").grid(column=5, row=1, sticky=W)
 		ttk.Label(self.frame, text="please enter the start date").grid(column=5, row=2, sticky=W)
 
-		plots = ('plot1', 'plot2', 'plot3')
-		box = ttk.Combobox(self.frame, values = plots, state = 'readonly', textvariable = self.figure_type).grid(column=5, row=4, sticky=W)
+		plots = ('portfolio performance', 'portfolio performance with market', 'risk and return of each stock position', 'Heat map of your portfolio stocks')
+		box1 = ttk.Combobox(self.frame, values = plots, state = 'readonly', textvariable = self.figure_type, width = 30).grid(column=5, row=4, sticky=W)
 
 		ttk.Button(self.frame, text="Plot", command=lambda: self.plot\
 			([stock_one_name.get(), stock_two_name.get(), stock_three_name.get(), stock_four_name.get()], \
 				[stock_one_amount.get(), stock_two_amount.get(), stock_three_amount.get(), stock_four_amount.get()],\
 				start_date.get(), end_date.get())).grid(column=6, row=4, sticky=W)
+
+		stat = ('statistics of the portfolio', 'correlation of the stocks changes')
+		box2 = ttk.Combobox(self.frame, values = stat, state = 'readonly', textvariable = self.analysis_type, width = 30).grid(column=5, row=3, sticky=W)
+
+		ttk.Button(self.frame, text="Analysis", command=lambda: self.analysis\
+			([stock_one_name.get(), stock_two_name.get(), stock_three_name.get(), stock_four_name.get()], \
+				[stock_one_amount.get(), stock_two_amount.get(), stock_three_amount.get(), stock_four_amount.get()],\
+				start_date.get(), end_date.get())).grid(column=6, row=3, sticky=W)
+
 
 		for child in self.frame.winfo_children(): 
 			child.grid_configure(padx=10, pady=10)
@@ -109,8 +119,39 @@ class PortfolioAnalysisWindow:
 	def plot(self, stock_list, amount_list, start_date, end_date):
 		try:
 			CI.IsInternetOn()
-			print self.figure_type.get()
-			PI.portfolio_analysis(stock_list, start_date, end_date, amount_list)		
+			portfolio = PC.Portfolio(stock_list, start_date, end_date, amount_list)
+			if self.figure_type.get() == 'portfolio performance':
+				portfolio.plot_portfolio()
+			elif self.figure_type.get() == 'portfolio performance with market':
+				portfolio.portfolio_value_change_compared_with_market()
+			elif self.figure_type.get() == 'risk and return of each stock position':
+				portfolio.risk_vs_return()
+			else:
+				portfolio.heat_map()
+
+		except (StockNameInputException,DateInputException,EmptyInputException,ConnectInternetException,DateRangeException, TradeAmountException) as error:
+			tkMessageBox.showinfo(message=error)
+		except:
+			tkMessageBox.showinfo(message='Please restart the application, sorry about that!')
+
+
+	def analysis(self, stock_list, amount_list, start_date, end_date):
+		try:
+			CI.IsInternetOn()
+			portfolio = PC.Portfolio(stock_list, start_date, end_date, amount_list)
+			try:
+				label1.destroy()
+				label2.destroy()
+			except:
+				pass
+				
+			if self.analysis_type.get() == 'statistics of the portfolio':
+				label1 = ttk.Label(self.frame, text="Statistics of the portfolio.").grid(column=1, row=5, sticky=W)
+				label2 = ttk.Label(self.frame, text=portfolio.describe_portfolio()).grid(column=1, row=6, sticky=W)
+			else:
+				label1 = ttk.Label(self.frame, text="Correlation of the stocks changes.").grid(column=1, row=5, sticky=W)
+				label2 = ttk.Label(self.frame, text=portfolio.stocks_value_change_corr()).grid(column=1, row=6, sticky=W)
+
 		except (StockNameInputException,DateInputException,EmptyInputException,ConnectInternetException,DateRangeException, TradeAmountException) as error:
 			tkMessageBox.showinfo(message=error)
 		except:
