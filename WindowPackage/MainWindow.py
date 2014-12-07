@@ -8,10 +8,14 @@ import tkMessageBox
 from PIL import Image, ImageTk
 
 class MainWindow:
+	'''
+	Create a class to generate the main window.
+	'''
 	  
 	def __init__(self, master):
+
 		self.master = master
-		self.frame = ttk.Frame(self.master, padding="3 2 120 100")
+		self.frame = ttk.Frame(self.master, padding="3 2 100 100")
 		self.frame.grid(column=0, row=0, sticky=(N, W, E, S))
 		self.frame.columnconfigure(0, weight=1)
 		self.frame.rowconfigure(0, weight=1)

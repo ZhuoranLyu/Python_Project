@@ -9,7 +9,11 @@ from Utilities.Exceptions import *
 import tkMessageBox
 
 class MultiStocksWindow:
+	'''
+	Create a class to generate a window to plot the close prices of several stocks.
+	'''
 	def __init__(self, master):
+	
 		self.master = master
 		self.frame = ttk.Frame(self.master,padding="6 4 100 80")
 		self.frame.grid(column=0, row=0, sticky=(N, W, E, S))

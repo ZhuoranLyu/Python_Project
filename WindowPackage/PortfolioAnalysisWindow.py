@@ -10,7 +10,11 @@ from Utilities.Exceptions import *
 
 
 class PortfolioAnalysisWindow:
+	'''
+	Create a class to generate a window to make the portfolio analysis.
+	'''
 	def __init__(self, master):
+	
 		self.master = master
 		self.frame = ttk.Frame(self.master,padding="4 6 160 60")
 		self.frame.grid(column=0, row=0, sticky=(N, W, E, S))
@@ -40,6 +44,8 @@ class PortfolioAnalysisWindow:
 		start_date.set("2010/1/1")
 		end_date = StringVar()
 		end_date.set('2010/5/1')
+
+		self.figure_type = StringVar()
 
 		stock_one_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_one_name)
 		stock_one_name_entry.grid(column=2, row=1, sticky=(W, E))
@@ -86,10 +92,13 @@ class PortfolioAnalysisWindow:
 		ttk.Label(self.frame, text="please enter the start date").grid(column=5, row=1, sticky=W)
 		ttk.Label(self.frame, text="please enter the start date").grid(column=5, row=2, sticky=W)
 
+		plots = ('plot1', 'plot2', 'plot3')
+		box = ttk.Combobox(self.frame, values = plots, state = 'readonly', textvariable = self.figure_type).grid(column=5, row=4, sticky=W)
+
 		ttk.Button(self.frame, text="Plot", command=lambda: self.plot\
 			([stock_one_name.get(), stock_two_name.get(), stock_three_name.get(), stock_four_name.get()], \
 				[stock_one_amount.get(), stock_two_amount.get(), stock_three_amount.get(), stock_four_amount.get()],\
-				start_date.get(), end_date.get())).grid(column=6, row=6, sticky=W)
+				start_date.get(), end_date.get())).grid(column=6, row=4, sticky=W)
 
 		for child in self.frame.winfo_children(): 
 			child.grid_configure(padx=10, pady=10)
@@ -100,6 +109,7 @@ class PortfolioAnalysisWindow:
 	def plot(self, stock_list, amount_list, start_date, end_date):
 		try:
 			CI.IsInternetOn()
+			print self.figure_type.get()
 			PI.portfolio_analysis(stock_list, start_date, end_date, amount_list)		
 		except (StockNameInputException,DateInputException,EmptyInputException,ConnectInternetException,DateRangeException, TradeAmountException) as error:
 			tkMessageBox.showinfo(message=error)

@@ -8,7 +8,11 @@ import Utilities.CheckInternet as CI
 from Utilities.Exceptions import *
 
 class SingleStockWindow:
+	'''
+	Create a class to generate a window to plot the close price of one stock.
+	'''
 	def __init__(self, master):
+	
 		self.master = master
 		self.frame = ttk.Frame(self.master,padding="6 4 50 50")
 		self.frame.grid(column=0, row=0, sticky=(N, W, E, S))
