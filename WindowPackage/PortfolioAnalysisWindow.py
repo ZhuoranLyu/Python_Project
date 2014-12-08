@@ -46,38 +46,40 @@ class PortfolioAnalysisWindow:
 		end_date.set('2010/5/1')
 
 		self.figure_type = StringVar()
+		self.figure_type.set('portfolio performance')
 		self.analysis_type = StringVar()
+		self.analysis_type.set('statistics of the portfolio')
 
-		stock_one_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_one_name)
-		stock_one_name_entry.grid(column=2, row=1, sticky=(W, E))
+		self.stock_one_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_one_name)
+		self.stock_one_name_entry.grid(column=2, row=1, sticky=(W, E))
 
-		stock_two_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_two_name)
-		stock_two_name_entry.grid(column=2, row=2, sticky=(W, E))
+		self.stock_two_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_two_name)
+		self.stock_two_name_entry.grid(column=2, row=2, sticky=(W, E))
 
-		stock_three_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_three_name)
-		stock_three_name_entry.grid(column=2, row=3, sticky=(W, E))
+		self.stock_three_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_three_name)
+		self.stock_three_name_entry.grid(column=2, row=3, sticky=(W, E))
 
-		stock_four_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_four_name)
-		stock_four_name_entry.grid(column=2, row=4, sticky=(W, E))
+		self.stock_four_name_entry = ttk.Entry(self.frame, width=7, textvariable=stock_four_name)
+		self.stock_four_name_entry.grid(column=2, row=4, sticky=(W, E))
 
 
-		stock_one_amount_entry = ttk.Entry(self.frame, width=7, textvariable=stock_one_amount)
-		stock_one_amount_entry.grid(column=4, row=1, sticky=(W, E))
+		self.stock_one_amount_entry = ttk.Entry(self.frame, width=7, textvariable=stock_one_amount)
+		self.stock_one_amount_entry.grid(column=4, row=1, sticky=(W, E))
 
-		stock_two_amount_entry = ttk.Entry(self.frame, width=7, textvariable=stock_two_amount)
-		stock_two_amount_entry.grid(column=4, row=2, sticky=(W, E))
+		self.stock_two_amount_entry = ttk.Entry(self.frame, width=7, textvariable=stock_two_amount)
+		self.stock_two_amount_entry.grid(column=4, row=2, sticky=(W, E))
 
-		stock_three_amount_entry = ttk.Entry(self.frame, width=7, textvariable=stock_three_amount)
-		stock_three_amount_entry.grid(column=4, row=3, sticky=(W, E))
+		self.stock_three_amount_entry = ttk.Entry(self.frame, width=7, textvariable=stock_three_amount)
+		self.stock_three_amount_entry.grid(column=4, row=3, sticky=(W, E))
 
-		stock_four_amount_entry = ttk.Entry(self.frame, width=7, textvariable=stock_four_amount)
-		stock_four_amount_entry.grid(column=4, row=4, sticky=(W, E))
+		self.stock_four_amount_entry = ttk.Entry(self.frame, width=7, textvariable=stock_four_amount)
+		self.stock_four_amount_entry.grid(column=4, row=4, sticky=(W, E))
 
-		start_date_entry = ttk.Entry(self.frame, width=7, textvariable=start_date)
-		start_date_entry.grid(column=6, row=1, sticky=(W, E))
+		self.start_date_entry = ttk.Entry(self.frame, width=7, textvariable=start_date)
+		self.start_date_entry.grid(column=6, row=1, sticky=(W, E))
 
-		end_date_entry = ttk.Entry(self.frame, width=7, textvariable=end_date)
-		end_date_entry.grid(column=6, row=2, sticky=(W, E))
+		self.end_date_entry = ttk.Entry(self.frame, width=7, textvariable=end_date)
+		self.end_date_entry.grid(column=6, row=2, sticky=(W, E))
 
 		ttk.Label(self.frame, text="please enter the first stock name").grid(column=1, row=1, sticky=W)
 		ttk.Label(self.frame, text="please enter the second stock name").grid(column=1, row=2, sticky=W)
@@ -109,11 +111,33 @@ class PortfolioAnalysisWindow:
 				[stock_one_amount.get(), stock_two_amount.get(), stock_three_amount.get(), stock_four_amount.get()],\
 				start_date.get(), end_date.get())).grid(column=6, row=3, sticky=W)
 
+		ttk.Button(self.frame, text="Clear", command=self.clear_entry).grid(column=7, row=1, sticky=N)
+
 
 		for child in self.frame.winfo_children(): 
 			child.grid_configure(padx=10, pady=10)
 
-		stock_one_name_entry.focus()
+		self.stock_one_name_entry.focus()
+
+
+	def clear_entry(self):
+		self.label1 = ttk.Label(self.frame, text="Statistics of the portfolio.")
+
+
+		self.stock_one_name_entry.delete(0, END)
+		self.stock_two_name_entry.delete(0, END)
+		self.stock_three_name_entry.delete(0, END)
+		self.stock_four_name_entry.delete(0, END)
+		
+		self.stock_one_amount_entry.delete(0,END)
+		self.stock_two_amount_entry.delete(0,END)
+		self.stock_three_amount_entry.delete(0,END)
+		self.stock_four_amount_entry.delete(0,END)
+
+		self.start_date_entry.delete(0, END)
+		self.end_date_entry.delete(0, END)
+		self.label1.destroy()
+		self.label2.destroy()
 
 
 	def plot(self, stock_list, amount_list, start_date, end_date):
@@ -139,18 +163,18 @@ class PortfolioAnalysisWindow:
 		try:
 			CI.IsInternetOn()
 			portfolio = PC.Portfolio(stock_list, start_date, end_date, amount_list)
-			try:
-				self.label1.destroy()
-				self.label2.destroy()
-			except:
-				pass
-				
+
+
 			if self.analysis_type.get() == 'statistics of the portfolio':
-				self.label1 = ttk.Label(self.frame, text="Statistics of the portfolio.").grid(column=1, row=5, sticky=W)
-				self.label2 = ttk.Label(self.frame, text=portfolio.describe_portfolio()).grid(column=1, row=6, sticky=W)
+				self.label1 = ttk.Label(self.frame, text="Statistics of the portfolio.")
+				self.label1.grid(column=1, row=5, sticky=W)
+				self.label2 = ttk.Label(self.frame, text=portfolio.describe_portfolio())
+				self.label2.grid(column=1, row=6, sticky=W)
 			else:
-				self.label1 = ttk.Label(self.frame, text="Correlation of the stocks changes.").grid(column=1, row=5, sticky=W)
-				self.label2 = ttk.Label(self.frame, text=portfolio.stocks_value_change_corr()).grid(column=1, row=6, sticky=W)
+				self.label1 = ttk.Label(self.frame, text="Correlation of the stocks changes.")
+				self.label1.grid(column=1, row=5, sticky=W)
+				self.label2 = ttk.Label(self.frame, text=portfolio.stocks_value_change_corr())
+				self.label2.grid(column=1, row=6, sticky=W)
 
 		except (StockNameInputException,DateInputException,EmptyInputException,ConnectInternetException,DateRangeException, TradeAmountException) as error:
 			tkMessageBox.showinfo(message=error)
