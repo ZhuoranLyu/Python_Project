@@ -5,7 +5,7 @@ import ComparisonWithMarketWindow as CWMW
 import MultiStocksWindow as MSW
 import PortfolioAnalysisWindow as PAW
 import tkMessageBox
-from PIL import Image, ImageTk
+#from PIL import Image, ImageTk
 
 class MainWindow:
 	'''
