@@ -136,6 +136,8 @@ class PortfolioAnalysisWindow:
 			self.end_date_entry.delete(0, END)
 			self.label1.destroy()
 			self.label2.destroy()
+			self.label3.destroy()
+			self.label4.destroy()
 		except:
 			pass
 
@@ -165,15 +167,25 @@ class PortfolioAnalysisWindow:
 
 
 			if self.analysis_type.get() == 'statistics of the portfolio':
+				try:
+					self.label3.destroy()
+					self.label4.destroy()
+				except:
+					pass
 				self.label1 = ttk.Label(self.frame, text="Statistics of the portfolio.")
 				self.label1.grid(column=1, row=5, sticky=W)
 				self.label2 = ttk.Label(self.frame, text=portfolio.describe_portfolio())
 				self.label2.grid(column=1, row=6, sticky=W)
 			else:
-				self.label1 = ttk.Label(self.frame, text="Correlation of the stocks changes.")
-				self.label1.grid(column=1, row=5, sticky=W)
-				self.label2 = ttk.Label(self.frame, text=portfolio.stocks_value_change_corr())
-				self.label2.grid(column=1, row=6, sticky=W)
+				try:
+					self.label1.destroy()
+					self.label2.destroy()
+				except:
+					pass
+				self.label3 = ttk.Label(self.frame, text="Correlation of the stocks changes.")
+				self.label3.grid(column=1, row=5, sticky=W)
+				self.label4 = ttk.Label(self.frame, text=portfolio.stocks_value_change_corr())
+				self.label4.grid(column=1, row=6, sticky=W)
 
 		except (StockNameInputException,DateInputException,EmptyInputException,ConnectInternetException,DateRangeException, TradeAmountException, EmptyPortfolioException) as error:
 			tkMessageBox.showinfo(message=error)
