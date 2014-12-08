@@ -52,13 +52,18 @@ class SingleStockWindow:
 
 		self.stock_name_entry.focus()
 
-	def clear_entry(self):		
-		self.stock_name_entry.delete(0, END)
-		self.start_date_entry.delete(0, END)
-		self.end_date_entry.delete(0, END)
-		self.analysistitle.destroy()
-		self.analysiscontent.destroy()
+	def clear_entry(self):
+		try:		
+			self.stock_name_entry.delete(0, END)
+			self.start_date_entry.delete(0, END)
+			self.end_date_entry.delete(0, END)
+			self.analysistitle.destroy()
+			self.analysiscontent.destroy()
 
+		except:
+			pass
+
+		
 	def analysis(self, stock_name, start_date, end_date):
 		try:
 			CI.IsInternetOn()

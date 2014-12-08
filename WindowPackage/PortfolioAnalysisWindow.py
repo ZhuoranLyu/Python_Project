@@ -121,24 +121,23 @@ class PortfolioAnalysisWindow:
 
 
 	def clear_entry(self):
-		self.label1 = ttk.Label(self.frame, text="Statistics of the portfolio.")
+		try:
+			self.stock_one_name_entry.delete(0, END)
+			self.stock_two_name_entry.delete(0, END)
+			self.stock_three_name_entry.delete(0, END)
+			self.stock_four_name_entry.delete(0, END)
+			
+			self.stock_one_amount_entry.delete(0,END)
+			self.stock_two_amount_entry.delete(0,END)
+			self.stock_three_amount_entry.delete(0,END)
+			self.stock_four_amount_entry.delete(0,END)
 
-
-		self.stock_one_name_entry.delete(0, END)
-		self.stock_two_name_entry.delete(0, END)
-		self.stock_three_name_entry.delete(0, END)
-		self.stock_four_name_entry.delete(0, END)
-		
-		self.stock_one_amount_entry.delete(0,END)
-		self.stock_two_amount_entry.delete(0,END)
-		self.stock_three_amount_entry.delete(0,END)
-		self.stock_four_amount_entry.delete(0,END)
-
-		self.start_date_entry.delete(0, END)
-		self.end_date_entry.delete(0, END)
-		self.label1.destroy()
-		self.label2.destroy()
-
+			self.start_date_entry.delete(0, END)
+			self.end_date_entry.delete(0, END)
+			self.label1.destroy()
+			self.label2.destroy()
+		except:
+			pass
 
 	def plot(self, stock_list, amount_list, start_date, end_date):
 		try:
@@ -153,7 +152,7 @@ class PortfolioAnalysisWindow:
 			else:
 				portfolio.heat_map()
 
-		except (StockNameInputException,DateInputException,EmptyInputException,ConnectInternetException,DateRangeException, TradeAmountException) as error:
+		except (StockNameInputException,DateInputException,EmptyInputException,ConnectInternetException,DateRangeException, TradeAmountException,EmptyPortfolioException) as error:
 			tkMessageBox.showinfo(message=error)
 		except:
 			tkMessageBox.showinfo(message='Please restart the application, sorry about that!')
@@ -176,7 +175,7 @@ class PortfolioAnalysisWindow:
 				self.label2 = ttk.Label(self.frame, text=portfolio.stocks_value_change_corr())
 				self.label2.grid(column=1, row=6, sticky=W)
 
-		except (StockNameInputException,DateInputException,EmptyInputException,ConnectInternetException,DateRangeException, TradeAmountException) as error:
+		except (StockNameInputException,DateInputException,EmptyInputException,ConnectInternetException,DateRangeException, TradeAmountException, EmptyPortfolioException) as error:
 			tkMessageBox.showinfo(message=error)
 		except:
 			tkMessageBox.showinfo(message='Please restart the application, sorry about that!')
