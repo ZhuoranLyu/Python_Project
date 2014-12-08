@@ -43,11 +43,7 @@ class Portfolio():
         """
         dictionary = dict(zip(self.stock_company_list, self.amount_list))
         delete_key_dictionary = {k: dictionary[k] for k in dictionary if not k==""}
-<<<<<<< HEAD
-        delete_value_dictionary = {k: delete_key_dictionary[k] for k in delete_key_dictionary if (delete_key_dictionary[k] != "" and delete_key_dictionary[k] !="0")}
-=======
         delete_value_dictionary = {k: delete_key_dictionary[k] for k in delete_key_dictionary if not delete_key_dictionary[k] == ""}
->>>>>>> 49f39cc4d5762349dd8fe53d6829d8bcf52dae87
         if IsEmptyPortfolio(delete_value_dictionary):
             raise EmptyPortfolioException()
         else:
@@ -97,11 +93,7 @@ class Portfolio():
         """
         portfolio_df = self.get_portfolio_df()    
         describe_stat_df = portfolio_df.describe()
-<<<<<<< HEAD
-        describe_stat_df = describe_stat_df.rename(index = {'count':'trading days'})
-=======
         
->>>>>>> 49f39cc4d5762349dd8fe53d6829d8bcf52dae87
         portfolio_weight_df = self.portfolio_weight()
         describe_stat_df.loc['start weight'] = portfolio_weight_df.ix[0]
         describe_stat_df.loc['end weight'] = portfolio_weight_df.ix[-1]
