@@ -165,7 +165,6 @@ class PortfolioAnalysisWindow:
 			CI.IsInternetOn()
 			portfolio = PC.Portfolio(stock_list, start_date, end_date, amount_list)
 
-
 			if self.analysis_type.get() == 'statistics of the portfolio':
 				try:
 					self.label1.destroy()
@@ -176,7 +175,8 @@ class PortfolioAnalysisWindow:
 					pass
 				self.label1 = ttk.Label(self.frame, text="Statistics of the portfolio.")
 				self.label1.grid(column=1, row=5, sticky=W)
-				self.label2 = ttk.Label(self.frame, text=portfolio.describe_portfolio())
+				text = portfolio.describe_portfolio()
+				self.label2 = ttk.Label(self.frame, text=text)
 				self.label2.grid(column=1, row=6, sticky=W)
 			else:
 				try:

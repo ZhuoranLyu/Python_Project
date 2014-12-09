@@ -81,7 +81,7 @@ def IsValidNum(num_string):
         num = int(num_string)
     except:
         return False
-    if num <= 0:
+    if num < 0:
         return False
     else:
         return True
