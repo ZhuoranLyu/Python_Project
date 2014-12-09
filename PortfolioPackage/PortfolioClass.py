@@ -1,3 +1,9 @@
+'''
+Created on 2014.12.1
+
+@author: Yunshi Li
+'''
+
 import numpy as np
 import pandas as pd
 import pandas.io.data as web

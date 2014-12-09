@@ -1,7 +1,7 @@
 '''
 Created on 2014.12.1
 
-@author: apple
+@author: Fangyun Sun
 '''
 
 import numpy as np

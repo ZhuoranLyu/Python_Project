@@ -1,7 +1,7 @@
 '''
-Created on 2014.12.4
+Created on 2014.12.1
 
-@author: apple
+@author: Fangyun Sun, Yunshi Li
 '''
 import re
 import pandas.io.data as web

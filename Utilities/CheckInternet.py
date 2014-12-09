@@ -1,7 +1,7 @@
 '''
-Created on 2014.12.5
+Created on 2014.12.1
 
-@author: apple
+@author: Fangyun Sun
 '''
 
 import requests

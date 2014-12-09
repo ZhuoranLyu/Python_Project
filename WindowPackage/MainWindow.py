@@ -1,3 +1,9 @@
+'''
+Created on 2014.12.1
+
+@author: Zhuoran Lyu
+'''
+
 from Tkinter import *
 import ttk
 import SingleStockWindow as SSW

@@ -1,3 +1,9 @@
+'''
+Created on 2014.12.1
+
+@author: Zhuoran Lyu, Fangyun Sun
+'''
+
 from Tkinter import *
 import ttk
 import ClassPackage.StockClass as SC
