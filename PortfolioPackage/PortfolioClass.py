@@ -43,7 +43,7 @@ class Portfolio():
         """
         dictionary = dict(zip(self.stock_company_list, self.amount_list))
         delete_key_dictionary = {k: dictionary[k] for k in dictionary if not k==""}
-        delete_value_dictionary = {k: delete_key_dictionary[k] for k in delete_key_dictionary if int((delete_key_dictionary[k]) != "" and delete_key_dictionary[k] !="0")}
+        delete_value_dictionary = {k: delete_key_dictionary[k] for k in delete_key_dictionary if (delete_key_dictionary[k] != "" and int(delete_key_dictionary[k]) !=0)}
         if IsEmptyPortfolio(delete_value_dictionary):
             raise EmptyPortfolioException()
         else:
