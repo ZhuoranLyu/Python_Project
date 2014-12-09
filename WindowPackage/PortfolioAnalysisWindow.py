@@ -168,6 +168,8 @@ class PortfolioAnalysisWindow:
 
 			if self.analysis_type.get() == 'statistics of the portfolio':
 				try:
+					self.label1.destroy()
+					self.label2.destroy()
 					self.label3.destroy()
 					self.label4.destroy()
 				except:
@@ -180,6 +182,8 @@ class PortfolioAnalysisWindow:
 				try:
 					self.label1.destroy()
 					self.label2.destroy()
+					self.label3.destroy()
+					self.label4.destroy()
 				except:
 					pass
 				self.label3 = ttk.Label(self.frame, text="Correlation of the stocks changes.")
