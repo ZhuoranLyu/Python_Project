@@ -101,7 +101,7 @@ class PortfolioAnalysisWindow:
 		ttk.Label(self.frame, text="please enter the start date").grid(column=5, row=1, sticky=W)
 		ttk.Label(self.frame, text="please enter the start date").grid(column=5, row=2, sticky=W)
 
-		plots = ('portfolio performance', 'portfolio performance with market', 'risk and return of each stock position', 'Heat map of your portfolio stocks')
+		plots = ('portfolio performance', 'portfolio performance with market', 'expected return V.S. risk of stocks', 'Heat map of your portfolio stocks','moving average V.S. portfolio daily price')
 		box1 = ttk.Combobox(self.frame, values = plots, state = 'readonly', textvariable = self.figure_type, width = 30).grid(column=5, row=4, sticky=W)
 
 		ttk.Button(self.frame, text="Plot", command=lambda: self.plot\
@@ -155,8 +155,10 @@ class PortfolioAnalysisWindow:
 				portfolio.plot_portfolio()
 			elif self.figure_type.get() == 'portfolio performance with market':
 				portfolio.portfolio_value_change_compared_with_market()
-			elif self.figure_type.get() == 'risk and return of each stock position':
-				portfolio.risk_vs_return()
+			elif self.figure_type.get() == 'expected return V.S. risk of stocks':
+				portfolio.return_vs_risk()
+			elif self.figure_type.get() == 'moving average V.S. portfolio daily price':
+				portfolio.moving_avg_50()
 			else:
 				portfolio.heat_map()
 

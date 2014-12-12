@@ -42,65 +42,68 @@ class Portfolio():
         self.end_date = end_date
         self.amount_list = amount_list
     
-    def pair_up(self):
+    def _pair_up(self):
         """
         Pair up the stock with the amount,
         return a dictionary that both stock and amount are not null.
         """
         dictionary = dict(zip(self.stock_company_list, self.amount_list))
         delete_key_dictionary = {k: dictionary[k] for k in dictionary if not k==""}
-        delete_value_dictionary = {k: delete_key_dictionary[k] for k in delete_key_dictionary if (delete_key_dictionary[k] != "" and int(delete_key_dictionary[k]) !=0)}
+        delete_value_dictionary = {k: delete_key_dictionary[k] for k in delete_key_dictionary \
+                                   if (delete_key_dictionary[k] != "" and ParseValidNum(delete_key_dictionary[k]) !=0)}
         if IsEmptyPortfolio(delete_value_dictionary):
             raise EmptyPortfolioException()
         else:
             return delete_value_dictionary
 
     
-    def merge_same_stock(self):
+    def _merge_same_stock(self):
         """
         This function adds amount together if repetitive stock names exist.
         """   
-        raw_dictionary = self.pair_up() #add the trade amount together if two names are the same.
+        raw_dictionary = self._pair_up()
         
         stock_amount_dictionary = defaultdict(int)
         for stock, amount in raw_dictionary.iteritems():
-            stock_amount_dictionary[stock.upper()] += ParseValidNum(amount) #add the trade amount together if the two capitalized names are the same.
-    
+            try:
+                stock_amount_dictionary[ParseStockName(stock)] += ParseValidNum(amount) #add the trade amount together if the two capitalized names are the same.
+            except:
+                raise StockNameInputException()
         unique_stock_company_list = stock_amount_dictionary.keys() #get a list of unique stock names
         trade_amount_list = stock_amount_dictionary.values() #get a list of trade amount corresponding to the stock names.
         return unique_stock_company_list, trade_amount_list
     
-    def get_portfolio_df(self):
+    def _get_portfolio_df(self):
         """
         Take a list of stock companies, date range and trade amount of each stock,
         return a dataframe showing each stock and total portfolio performance
         """
-        unique_stock_companies, trade_amount = self.merge_same_stock()
+        unique_stock_companies, trade_amount = self._merge_same_stock()
         stock_class_dict = {stock:Stock(stock,self.start_date,self.end_date) for stock in unique_stock_companies} #get validated stocks list
     
         pricecols = {stock:stock_class.close_price for stock, stock_class in stock_class_dict.iteritems()}
         closed_price_df = pd.DataFrame(data=pricecols, columns=unique_stock_companies)
         portfolio = closed_price_df.mul(trade_amount, axis=1)
         portfolio_add_sum = portfolio.copy()
-        portfolio_add_sum['Sum']= portfolio.sum(1)     
+        portfolio_add_sum['Portfolio']= portfolio.sum(1)     
         return portfolio_add_sum
-    
-    def portfolio_weight(self):
+
+    def _portfolio_weight(self):
         """
         Calculate the weight of each stock in the portfolio each day
         """
-        portfolio_df = self.get_portfolio_df()
-        portfolio_weight_df = portfolio_df.div(portfolio_df['Sum'], axis='index')       
+        portfolio_df = self._get_portfolio_df()
+        portfolio_weight_df = portfolio_df.div(portfolio_df['Portfolio'], axis='index')       
         return portfolio_weight_df
     
     def describe_portfolio(self):
         """
-        Get descriptic statistics of the portfolio
+        Get descriptive statistics of the portfolio
         """
-        portfolio_df = self.get_portfolio_df()    
+        portfolio_df = self._get_portfolio_df()    
         describe_stat_df = portfolio_df.describe()
         describe_stat_df = describe_stat_df.rename(index = {'count':'trading days'})
-        portfolio_weight_df = self.portfolio_weight()
+        portfolio_weight_df = self._portfolio_weight()
         describe_stat_df.loc['start weight'] = portfolio_weight_df.ix[0]
         describe_stat_df.loc['end weight'] = portfolio_weight_df.ix[-1]
         
@@ -110,21 +113,20 @@ class Portfolio():
     
     def plot_portfolio(self):
         """
-        Plot a gragh showing the performance of the portfolio
+        Plot a graph showing the performance of the portfolio
         """
-        portfolio_df = self.get_portfolio_df()
+        portfolio_df = self._get_portfolio_df()
         plt.figure()
-        portfolio_df['Sum'].plot(kind='line',label = 'Portfolio')
+        portfolio_df['Portfolio'].plot(kind='line')
         plt.ylabel('Price')
         plt.title('Line plot for the overall portfolio performance')
-        plt.legend()
         plt.show()
      
-    def percentage_change(self):
+    def _percentage_change(self):
         """
         Calculate the return of the stock/portfolio each day
         """
-        portfolio_df = self.get_portfolio_df()
+        portfolio_df = self._get_portfolio_df()
         stock_firstday = portfolio_df.ix[0]
         percentage_change_df = (portfolio_df - stock_firstday)/stock_firstday
         return percentage_change_df
@@ -133,8 +135,9 @@ class Portfolio():
         """
         Plot the percent change of the portfolio and the actual market.
         """
+        percentage_change_df = self._percentage_change()
         plt.figure()
-        self.percentage_change()['Sum'].plot(color = 'b',label = 'Portfolio')
+        percentage_change_df['Portfolio'].plot(color = 'b',label = 'Portfolio')
         market = Market(self.start_date,self.end_date)
         market.change_price_precent().plot(color = 'r',label = 'Market')
         plt.legend()
@@ -144,30 +147,27 @@ class Portfolio():
         plt.ylabel('Percent Change of Close Price')
         plt.show()
     
-    def risk_vs_return(self):
+    def return_vs_risk(self):
         """
-        create a plot to examine the risk and return tradeoff
+        create a plot to examine the return and the risk tradeoff
         """
-        percentage_change_df = self.percentage_change()
+        percentage_change_df = self._percentage_change()
         only_stocks_percentage_change_df = percentage_change_df[percentage_change_df.columns[:-1]]
         plt.figure()
-        plt.scatter(only_stocks_percentage_change_df.mean(),only_stocks_percentage_change_df.std())
-        plt.xlabel('Expected Return')
-        plt.ylabel('Risk')
-        for label, x, y in zip(only_stocks_percentage_change_df.columns, only_stocks_percentage_change_df.mean(), only_stocks_percentage_change_df.std()):
-            plt.annotate(label, xy = (x, y),xytext = (10, 10),
-                         textcoords = 'offset points', 
-                         horizontalalignment = 'right', verticalalignment = 'down', 
-                         bbox = dict(boxstyle = 'round,pad=0.2', facecolor='red', alpha = 0.2), 
-                         arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3'))
-        plt.title('Risk and Return of each stock position')
+        plt.scatter(only_stocks_percentage_change_df.std(), only_stocks_percentage_change_df.mean())
+        plt.ylabel('Expected Return')
+        plt.xlabel('Risk')
+        for label, x, y in zip(only_stocks_percentage_change_df.columns, only_stocks_percentage_change_df.std(), only_stocks_percentage_change_df.mean()):
+            plt.annotate(label, xy = (x, y),xytext = (10, 10), textcoords = 'offset points', horizontalalignment = 'right', verticalalignment = 'down', 
+                         arrowprops = dict(arrowstyle = '<-'), bbox = dict(boxstyle = 'sawtooth', facecolor='red', alpha = 0.2))
+        plt.title('Expected return versus risk')
         plt.show()
          
     def stocks_value_change_corr(self):
         """
         get correlation of the stocks changes.
         """
-        percentage_change_df = self.percentage_change()
+        percentage_change_df = self._percentage_change()
         stocks_price_change_corr = percentage_change_df[percentage_change_df.columns[:-1]].corr()
         return stocks_price_change_corr
     
@@ -176,17 +176,33 @@ class Portfolio():
         create a heat map to see the correlation among stocks
         """
         stocks_price_change_corr = self.stocks_value_change_corr()
-        plt.figure
-        plt.imshow(stocks_price_change_corr, cmap='Blues', interpolation='none')
+        plt.figure()
+        #plt.imshow(stocks_price_change_corr, cmap='Blues', interpolation='none')
+        plt.pcolor(stocks_price_change_corr,cmap='Blues')
         plt.colorbar()
-        plt.xticks(range(len(stocks_price_change_corr)), stocks_price_change_corr.columns)
-        plt.yticks(range(len(stocks_price_change_corr)), stocks_price_change_corr.columns)
+        plt.xticks(np.arange(len(stocks_price_change_corr))+0.5, stocks_price_change_corr.columns, ha='center')
+        plt.yticks(np.arange(len(stocks_price_change_corr))+0.5, stocks_price_change_corr.columns)
         plt.title('Heat map of your portfolio stocks')
         plt.show()
-        
-#stock_company_list = ['f','AAPL','F']
-#amount_list = ['30',20,20]
-#start_date = "2011/11/21"
-#end_date = "2012/3/21"        
-#first = Portfolio(stock_company_list, start_date, end_date, amount_list)
-#print first.merge_same_stock()
+
+    def moving_avg_50(self):
+        """
+        plot a graph comparing the 50 days moving average price with the portfolio daily price.'
+        """
+        portfolio_df = self._get_portfolio_df()
+        moving_average = pd.rolling_mean(portfolio_df['Portfolio'],50, min_periods=2)
+        plt.figure()
+        plt.plot(portfolio_df.index,moving_average, label='50 days moving average')
+        plt.plot(portfolio_df.index,portfolio_df['Portfolio'], label='Portfolio daily price')
+        plt.xticks(fontsize=9,rotation=45)
+        plt.ylabel('Price')
+        plt.title('Moving average of 50 days V.S. portfolio price')
+        plt.legend()
+        plt.show()
+
+stock_company_list = ['a','AAPL','F']
+amount_list = ['30',20,20]
+start_date = "2011/11/21"
+end_date = "2012/3/21"        
+first = Portfolio(stock_company_list, start_date, end_date, amount_list)
+print first._merge_same_stock()

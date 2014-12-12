@@ -6,7 +6,7 @@ Created on 2014.12.1
 import re
 import pandas.io.data as web
 import datetime
-from Utilities.Exceptions import *
+from Exceptions import *
 
 def IsValidStockName(stock_name):
     """
@@ -16,6 +16,7 @@ def IsValidStockName(stock_name):
         #Check whether input of list has a valid form
         try:
             df =web.DataReader(stock_name,'yahoo')
+            
         except:
             return False
         else:
@@ -103,3 +104,6 @@ def IsEmptyPortfolio(dictionary):
         return True
     else:
         return False
+
+
+print IsValidStockName('cba')

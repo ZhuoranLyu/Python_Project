@@ -59,6 +59,9 @@ class SingleStockWindow:
 		self.stock_name_entry.focus()
 
 	def clear_entry(self):
+		'''
+		clear all the entries and analysis in the window
+		'''
 		try:		
 			self.stock_name_entry.delete(0, END)
 			self.start_date_entry.delete(0, END)
@@ -71,6 +74,9 @@ class SingleStockWindow:
 
 		
 	def analysis(self, stock_name, start_date, end_date):
+		'''
+		analysis the data and display them in a dataframe
+		'''
 		try:
 			CI.IsInternetOn()
 			stock = SC.Stock(stock_name, start_date, end_date)
@@ -84,6 +90,9 @@ class SingleStockWindow:
 			tkMessageBox.showinfo(message='Please restart the application, sorry about that!')
 
 	def plot(self, stock_name, start_date, end_date):
+		'''
+		plot the stock closed prices
+		'''
 		try:
 			CI.IsInternetOn()
 			stock = SC.Stock(stock_name, start_date, end_date)
