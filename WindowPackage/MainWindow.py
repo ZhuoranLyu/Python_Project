@@ -34,9 +34,15 @@ class MainWindow:
 		self.button5 = ttk.Button(self.frame, text = "About", width = 25, command = lambda:\
 						tkMessageBox.showinfo(message='This is a stock analysis project made by cici, Fangyun and Zhuoran. Thank you for your interest!')).\
 						grid(column=1, row=3, sticky=W)
+		self.button6 = ttk.Button(self.frame, text = "Quit", width = 25, command = self.destroy).grid(column=2, row=3, sticky=W)
+		
 
 		for child in self.frame.winfo_children(): 
 			child.grid_configure(padx=10, pady=10)
+
+	def destroy(self):
+		self.master.destroy()
+
 
 	def new_window1(self):
 		self.newWindow = Toplevel(self.master)

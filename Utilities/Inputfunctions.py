@@ -16,7 +16,7 @@ def IsValidStockName(stock_name):
         #Check whether input of list has a valid form
         try:
             df =web.DataReader(stock_name,'yahoo')
-            
+
         except:
             return False
         else:
@@ -106,4 +106,4 @@ def IsEmptyPortfolio(dictionary):
         return False
 
 
-print IsValidStockName('cba')
+#print IsValidStockName('cba')
